@@ -315,28 +315,31 @@ export default function PatientDashboard({ user, showToast }) {
               {/* City Selection */}
               <div>
                 <label className="text-[10px] font-bold text-slate-400 uppercase">City</label>
-                <select
+                <input
+                  type="text"
+                  list="cities-list"
                   value={searchCity}
                   onChange={(e) => setSearchCity(e.target.value)}
-                  className="w-full mt-1 rounded-xl border border-slate-200 bg-slate-50 py-2.5 px-3 text-sm outline-none focus:border-brand-500 focus:bg-white transition-all appearance-none"
-                >
-                  <option value="">All Cities</option>
+                  placeholder="Enter city (e.g. Pune, Patna, Agra...)"
+                  className="w-full mt-1 rounded-xl border border-slate-200 bg-slate-50 py-2.5 px-3 text-sm outline-none focus:border-brand-500 focus:bg-white transition-all"
+                />
+                <datalist id="cities-list">
                   {metaCities.map(city => (
-                    <option key={city} value={city}>{city}</option>
+                    <option key={city} value={city} />
                   ))}
-                  {/* Fallback if meta is empty */}
+                  {/* Fallback list if database meta is empty */}
                   {metaCities.length === 0 && (
                     <>
-                      <option value="Mumbai">Mumbai</option>
-                      <option value="Delhi">Delhi</option>
-                      <option value="Bangalore">Bangalore</option>
-                      <option value="Pune">Pune</option>
-                      <option value="Hyderabad">Hyderabad</option>
-                      <option value="Chennai">Chennai</option>
-                      <option value="Kolkata">Kolkata</option>
+                      <option value="Mumbai" />
+                      <option value="Delhi" />
+                      <option value="Bangalore" />
+                      <option value="Pune" />
+                      <option value="Hyderabad" />
+                      <option value="Chennai" />
+                      <option value="Kolkata" />
                     </>
                   )}
-                </select>
+                </datalist>
               </div>
 
               {/* Sorting */}
