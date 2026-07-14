@@ -18,6 +18,7 @@ export default function PatientDashboard({ user, showToast }) {
 
   // Data listings
   const [doctors, setDoctors] = useState([]);
+  const [otherCityDoctors, setOtherCityDoctors] = useState([]);
   const [appointments, setAppointments] = useState([]);
   const [loadingDoctors, setLoadingDoctors] = useState(false);
   const [loadingAppointments, setLoadingAppointments] = useState(false);
@@ -64,6 +65,7 @@ export default function PatientDashboard({ user, showToast }) {
 
   const searchDoctorsList = async () => {
     setLoadingDoctors(true);
+    setOtherCityDoctors([]);
     try {
       const params = {};
       if (searchCity) params.city = searchCity;
@@ -72,6 +74,13 @@ export default function PatientDashboard({ user, showToast }) {
 
       const res = await axios.get('/api/doctors/search', { params });
       setDoctors(res.data);
+
+      // If no doctors in this city but a city and specialty were selected, search nationwide
+      if (res.data.length === 0 && searchCity && searchSpecialty) {
+        const nationwideParams = { specialty: searchSpecialty, sortBy };
+        const nationwideRes = await axios.get('/api/doctors/search', { params: nationwideParams });
+        setOtherCityDoctors(nationwideRes.data);
+      }
     } catch (err) {
       console.error('Error searching doctors:', err);
     } finally {
@@ -427,8 +436,61 @@ export default function PatientDashboard({ user, showToast }) {
             {loadingDoctors ? (
               <div className="py-20 text-center text-slate-400 text-sm">Loading doctors...</div>
             ) : doctors.length === 0 ? (
-              <div className="py-20 text-center rounded-3xl border border-dashed border-slate-200 text-slate-400 text-sm">
-                No doctors found matching filters. Try changing your search.
+              <div className="space-y-6">
+                <div className="py-12 text-center rounded-3xl border border-dashed border-slate-200 text-slate-400 text-sm bg-white/40">
+                  No doctors found matching filters in "{searchCity || 'your city'}". Try changing your search.
+                </div>
+                
+                {otherCityDoctors.length > 0 && (
+                  <div className="animate-fade-in space-y-4">
+                    <h3 className="text-sm font-bold text-slate-500 border-l-4 border-brand-500 pl-3 uppercase tracking-wider">
+                      Alternative: Specialists in other Indian cities ({searchSpecialty})
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {otherCityDoctors.map((doctor) => (
+                        <div key={doctor._id} className="glass-card rounded-2xl p-5 flex flex-col justify-between">
+                          <div>
+                            <div className="flex items-start justify-between">
+                              <div>
+                                <h3 className="text-base font-bold text-slate-900">Dr. {doctor.name}</h3>
+                                <span className="inline-block mt-0.5 text-xs text-brand-600 font-semibold bg-brand-50 px-2 py-0.5 rounded-md capitalize">
+                                  {doctor.specialty}
+                                </span>
+                              </div>
+                              <div className="flex items-center space-x-1 text-amber-500 bg-amber-50 px-2 py-0.5 rounded-md text-xs font-bold">
+                                <Star className="h-3.5 w-3.5 fill-amber-500" />
+                                <span>{doctor.rating ? doctor.rating.toFixed(1) : '5.0'}</span>
+                              </div>
+                            </div>
+
+                            <div className="mt-4 space-y-2 text-xs text-slate-600">
+                              <p className="flex items-center">
+                                <Clock className="mr-2 h-4 w-4 text-slate-400" />
+                                <span>{doctor.experienceYears} Years Experience</span>
+                              </p>
+                              <p className="flex items-center">
+                                <MapPin className="mr-2 h-4 w-4 text-slate-400" />
+                                <span>{doctor.clinicAddress}, {doctor.city}</span>
+                              </p>
+                              <p className="flex items-center">
+                                <Phone className="mr-2 h-4 w-4 text-slate-400" />
+                                <span>{doctor.phone}</span>
+                              </p>
+                            </div>
+                          </div>
+
+                          <button
+                            onClick={() => openBookingModal(doctor)}
+                            className="mt-5 w-full inline-flex items-center justify-center rounded-xl bg-slate-900 py-2.5 text-xs font-semibold text-white hover:bg-slate-800 transition-colors"
+                          >
+                            <span>Book Appointment</span>
+                            <ChevronRight className="ml-1 h-3.5 w-3.5" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

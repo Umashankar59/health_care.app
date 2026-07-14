@@ -15,6 +15,30 @@ const defaultAvailability = [
 
 const mockDoctors = [
   {
+    name: 'G. Srinivas',
+    email: 'srinivas.neurologist@medlink.in',
+    password: 'password123',
+    specialty: 'Neurologist',
+    clinicAddress: 'Srinivas Neuro Care, Governorpet',
+    city: 'Vijayawada',
+    phone: '+91 99123 45678',
+    rating: 4.8,
+    experienceYears: 16,
+    availability: defaultAvailability
+  },
+  {
+    name: 'Kavitha Reddy',
+    email: 'kavitha.pediatrician@medlink.in',
+    password: 'password123',
+    specialty: 'Pediatrician',
+    clinicAddress: 'Lotus Children Hospital, Eluru Road',
+    city: 'Vijayawada',
+    phone: '+91 99234 56789',
+    rating: 4.7,
+    experienceYears: 11,
+    availability: defaultAvailability
+  },
+  {
     name: 'Rajesh Kumar',
     email: 'rajesh.neurologist@medlink.in',
     password: 'password123', // Will be hashed in pre-save hook
