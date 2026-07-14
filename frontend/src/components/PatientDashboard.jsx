@@ -75,9 +75,11 @@ export default function PatientDashboard({ user, showToast }) {
       const res = await axios.get('/api/doctors/search', { params });
       setDoctors(res.data);
 
-      // If no doctors in this city but a city and specialty were selected, search nationwide
-      if (res.data.length === 0 && searchCity && searchSpecialty) {
-        const nationwideParams = { specialty: searchSpecialty, sortBy };
+      // If no doctors in this city but a city was searched, search nationwide (with or without specialty filter)
+      if (res.data.length === 0 && searchCity) {
+        const nationwideParams = { sortBy };
+        if (searchSpecialty) nationwideParams.specialty = searchSpecialty;
+        
         const nationwideRes = await axios.get('/api/doctors/search', { params: nationwideParams });
         setOtherCityDoctors(nationwideRes.data);
       }
@@ -444,7 +446,7 @@ export default function PatientDashboard({ user, showToast }) {
                 {otherCityDoctors.length > 0 && (
                   <div className="animate-fade-in space-y-4">
                     <h3 className="text-sm font-bold text-slate-500 border-l-4 border-brand-500 pl-3 uppercase tracking-wider">
-                      Alternative: Specialists in other Indian cities ({searchSpecialty})
+                      Alternative: {searchSpecialty ? `${searchSpecialty}s` : 'Doctors'} in other Indian cities
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {otherCityDoctors.map((doctor) => (
