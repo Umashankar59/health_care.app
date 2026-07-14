@@ -327,9 +327,13 @@ export default function PatientDashboard({ user, showToast }) {
                   {/* Fallback if meta is empty */}
                   {metaCities.length === 0 && (
                     <>
-                      <option value="New York">New York</option>
-                      <option value="San Francisco">San Francisco</option>
-                      <option value="London">London</option>
+                      <option value="Mumbai">Mumbai</option>
+                      <option value="Delhi">Delhi</option>
+                      <option value="Bangalore">Bangalore</option>
+                      <option value="Pune">Pune</option>
+                      <option value="Hyderabad">Hyderabad</option>
+                      <option value="Chennai">Chennai</option>
+                      <option value="Kolkata">Kolkata</option>
                     </>
                   )}
                 </select>

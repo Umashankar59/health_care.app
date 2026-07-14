@@ -217,7 +217,7 @@ export default function AuthModal({ isOpen, onClose, initialRole = 'patient', on
                       <input
                         type="text"
                         required
-                        placeholder="San Francisco"
+                        placeholder="Mumbai"
                         value={city}
                         onChange={(e) => setCity(e.target.value)}
                         className="w-full rounded-2xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-4 text-sm outline-none focus:border-brand-500 focus:bg-white focus:ring-1 focus:ring-brand-500/20 transition-all"
@@ -232,7 +232,7 @@ export default function AuthModal({ isOpen, onClose, initialRole = 'patient', on
                       <input
                         type="tel"
                         required
-                        placeholder="+1 (555) 019-2834"
+                        placeholder="+91 98765 43210"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                         className="w-full rounded-2xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-4 text-sm outline-none focus:border-brand-500 focus:bg-white focus:ring-1 focus:ring-brand-500/20 transition-all"
@@ -291,7 +291,7 @@ export default function AuthModal({ isOpen, onClose, initialRole = 'patient', on
                         <input
                           type="text"
                           required
-                          placeholder="Suite 100, Medical Plaza Road"
+                          placeholder="Apollo Clinic, Sector 15, Vashi"
                           value={clinicAddress}
                           onChange={(e) => setClinicAddress(e.target.value)}
                           className="w-full rounded-2xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-4 text-sm outline-none focus:border-brand-500 focus:bg-white focus:ring-1 focus:ring-brand-500/20 transition-all"
